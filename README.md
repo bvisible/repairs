@@ -1,7 +1,13 @@
-## Repairs
+## Neoffice Repairs for Frappe/ERPNext v14
 
-Repair management app
+Repairs for Frappe/ERPNext v14
 
-#### License
+To install this theme,
 
-MIT
+1. bench get-app https://github.com/bvisible/repairs.git
+2. bench --site prod.local install-app repairs
+3. bench clear-cache
+
+To uninstall this theme,
+
+1. bench --site prod.local uninstall-app repairs

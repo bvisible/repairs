@@ -1,9 +1,8 @@
 import frappe
-from awesome_cart.compat.customer import get_current_customer
 from erpnext.stock.doctype.stock_entry.stock_entry_utils import make_stock_entry
 from frappe import _
 from frappe.contacts.doctype.contact.contact import get_default_contact
-from frappe.core.doctype.role.role import get_emails_from_role
+from frappe.core.doctype.role.role import get_info_based_on_role
 from frappe.desk.form import assign_to
 from frappe.model.mapper import get_mapped_doc
 
@@ -106,7 +105,7 @@ def assign_warranty_claim(warranty_claim, method):
 					user_emails.append(notification.user)
 
 				if notification.role:
-					user_emails.extend(get_emails_from_role(notification.role))
+					user_emails.extend(get_info_based_on_role(notification.role))
 
 				if notification.cc:
 					notification.cc = notification.cc.replace(",", "\n")
@@ -305,3 +304,11 @@ def get_wc_dashboard_data(data):
 		})
 
 	return data
+
+def get_current_customer():
+	session_user = frappe.get_user()
+	if session_user.name == "Guest":
+		return None
+
+	customer = frappe.db.get_value("Customer", {"user": session_user.name})
+	return customer
